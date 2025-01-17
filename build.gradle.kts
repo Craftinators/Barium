@@ -7,7 +7,8 @@ group = "me.craftinators"
 version = "0.0.0"
 description = "Does something"
 
-val mcVersion = "1.21"
+val minecraftServerVersion = "1.21" // Minecraft Server Version
+val protocolLibVersion = "5.3.0" // ProtocolLib Plugin Version
 
 repositories {
     mavenCentral()
@@ -17,14 +18,21 @@ repositories {
     maven {
         url = uri("https://oss.sonatype.org/content/groups/public/")
     } // sonatype
+    maven {
+        url = uri("https://repo.dmulloy2.net/repository/public/")
+    } // ProtocolLib
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:${mcVersion}-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:${minecraftServerVersion}-R0.1-SNAPSHOT")
+    compileOnly("com.comphenix.protocol:ProtocolLib:${protocolLibVersion}")
 }
 
-tasks {
-    runServer {
-        minecraftVersion(mcVersion)
-    }
+val externalPlugins = runPaper.downloadPluginsSpec {
+    url("https://github.com/dmulloy2/ProtocolLib/releases/download/${protocolLibVersion}/ProtocolLib.jar") // ProtocolLib
+}
+
+tasks.runServer {
+    downloadPlugins.from(externalPlugins)
+    minecraftVersion(minecraftServerVersion)
 }

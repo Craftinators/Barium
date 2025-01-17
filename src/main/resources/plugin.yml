@@ -2,3 +2,4 @@ name: Barium
 version: '${version}'
 main: me.craftinators.barium.Barium
 api-version: '1.21'
+depend: [ ProtocolLib ]
