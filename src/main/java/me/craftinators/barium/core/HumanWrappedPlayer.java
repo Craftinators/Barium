@@ -4,10 +4,10 @@ import me.craftinators.barium.Barium;
 
 import java.util.UUID;
 
-public final class HumanPlayer extends WrappedPlayer {
+public final class HumanWrappedPlayer extends WrappedPlayer {
     private final Job job;
 
-    public HumanPlayer(Barium plugin, UUID uuid, Job job) {
+    public HumanWrappedPlayer(Barium plugin, UUID uuid, Job job) {
         super(plugin, uuid);
         this.job = job;
     }
