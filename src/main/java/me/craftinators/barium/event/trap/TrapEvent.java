@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class TrapEvent extends Event {
     protected final Trap trap;
 
-    public TrapEvent(@NotNull final Trap trap) {
+    public TrapEvent(@NotNull Trap trap) {
         this.trap = trap;
     }
 
