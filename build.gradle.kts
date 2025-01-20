@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.guava:guava:33.4.0-jre")
+
     compileOnly("io.papermc.paper:paper-api:${minecraftServerVersion}-R0.1-SNAPSHOT")
     compileOnly("com.comphenix.protocol:ProtocolLib:${protocolLibVersion}")
 }
