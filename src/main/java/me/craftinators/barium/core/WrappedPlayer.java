@@ -11,9 +11,12 @@ public abstract class WrappedPlayer {
     protected final Barium plugin;
     protected final UUID uuid;
 
-    protected WrappedPlayer(Barium plugin, UUID uuid) {
+    private Job job;
+
+    public WrappedPlayer(@NotNull Barium plugin, @NotNull UUID uuid, @NotNull Job job) {
         this.plugin = plugin;
         this.uuid = uuid;
+        this.job = job;
     }
 
     /**
@@ -38,5 +41,21 @@ public abstract class WrappedPlayer {
      */
     public final @Nullable Player getPlayer() {
         return plugin.getServer().getPlayer(uuid);
+    }
+
+    /**
+     * Returns the job of the player associated with this wrapper
+     * @return Job of the player
+     */
+    public final @NotNull Job getJob() {
+        return job;
+    }
+
+    /**
+     * Sets the job of the player associated with this wrapper
+     * @param newJob New job of the player
+     */
+    public final void setJob(@NotNull Job newJob) {
+        job = newJob;
     }
 }
