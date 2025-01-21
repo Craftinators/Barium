@@ -18,11 +18,22 @@ public abstract class Match {
         random = ThreadLocalRandom.current();
     }
 
-    public final ImmutableSet<WrappedPlayer> getPlayers() {
+    /**
+     * Gets the players in the match.
+     * @return An immutable set of {@link WrappedPlayer} in the match.
+     */
+    public final @NotNull ImmutableSet<@NotNull WrappedPlayer> getPlayers() {
         return ImmutableSet.copyOf(players);
     }
 
-    public final Map<WrappedPlayer, JobTransfer> balanceJobs() {
+    // <editor-fold desc="Job Utility">
+
+    /**
+     * Balances the {@link Job} among players to ensure that the difference between the most populous job and the least populous job
+     * is at most 1, or 0 if the number of players is a multiple of the number of jobs.
+     * @return A map of players and their job transfers, indicating which job they were moved from and to.
+     */
+    public final @NotNull Map<@NotNull WrappedPlayer, @NotNull JobTransfer> balanceJobs() {
         final Map<WrappedPlayer, JobTransfer> transfers = new HashMap<>();
 
         // Remove from the most populous job and give to the least populous job until the difference is at most 1 (or if
