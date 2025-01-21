@@ -105,7 +105,7 @@ public abstract class Match {
         return getCountPerJob().entrySet().stream()
                 .max(Map.Entry.comparingByValue()) // Gets the highest value
                 .map(Map.Entry::getKey) // Get the associated key
-                .orElse(Job.Default); // In the case that the optional was empty, return the default job
+                .orElseThrow(() -> new IllegalStateException("No Job found. This should not happen."));
     }
 
     /**
@@ -116,6 +116,8 @@ public abstract class Match {
         return getCountPerJob().entrySet().stream()
                 .min(Map.Entry.comparingByValue()) // Gets the lowest value
                 .map(Map.Entry::getKey) // Get the associated key
-                .orElse(Job.Default); // In the case that the optional was empty, return the default job
+                .orElseThrow(() -> new IllegalStateException("No Job found. This should not happen."));
     }
+
+    // </editor-fold>
 }
