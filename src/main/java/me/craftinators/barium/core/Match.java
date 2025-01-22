@@ -2,6 +2,7 @@ package me.craftinators.barium.core;
 
 import com.google.common.collect.ImmutableSet;
 import me.craftinators.barium.Barium;
+import me.craftinators.barium.Utility;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -36,33 +37,19 @@ public abstract class Match {
     public final @NotNull Map<@NotNull WrappedPlayer, @NotNull JobTransfer> balanceJobs() {
         final Map<WrappedPlayer, JobTransfer> transfers = new HashMap<>();
 
-        // Remove from the most populous job and give to the least populous job until the difference is at most 1 (or if
-        // the number of players is a multiple of the number of jobs, until all jobs have the same amount of players)
         final long targetDifference = players.size() % Job.values().length == 0 ? 0 : 1;
-
-        // Get the difference between the most popular job and the least popular job
         int difference = getLargestDifferenceBetweenJobs();
 
         while (difference > targetDifference) {
-            // Get the most popular job
             Job mostPopulousJob = getMostPopulousJob();
             Job leastPopulousJob = getLeastPopulousJob();
 
-            // Remove a player (by random) from the most populous job and add them to the least populous job
-
-            // Get all the players in the most populous job (This set is guaranteed to have at least two people, or else
-            // the difference would be at most 1)
             Set<WrappedPlayer> playersInMostPopulousJob = players.stream()
                     .filter(player -> player.getJob() == mostPopulousJob)
                     .collect(Collectors.toSet());
 
-            // Get a random player from the most populous job
-            WrappedPlayer playerToMove = playersInMostPopulousJob.stream()
-                    .skip(random.nextInt(playersInMostPopulousJob.size()))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalStateException("No players found in the most populous job. This should not happen."));
+            WrappedPlayer playerToMove = Utility.getRandomElement(playersInMostPopulousJob, random);
 
-            // Remove the player from the most populous job
             playerToMove.setJob(leastPopulousJob);
             transfers.put(playerToMove, new JobTransfer(mostPopulousJob, leastPopulousJob));
 
