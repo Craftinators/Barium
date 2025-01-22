@@ -23,7 +23,7 @@ public abstract class Match {
      * Gets the players in the match.
      * @return An immutable set of {@link WrappedPlayer} in the match.
      */
-    public final @NotNull ImmutableSet<@NotNull WrappedPlayer> getPlayers() {
+    public final @NotNull Set<@NotNull WrappedPlayer> getPlayers() {
         return ImmutableSet.copyOf(players);
     }
 
