@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 // Cache for UUIDs to prevent generating multiple UUIDs for the same texture.
-public class Base64 {
+public final class Base64 {
     // Regular expression to validate Base64 strings.
     private static final Predicate<String> BASE_64_REGEX = Pattern.compile(
             "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
@@ -28,6 +28,10 @@ public class Base64 {
     ).asMatchPredicate();
 
     private static final Map<String, UUID> UUID_CACHE = new HashMap<>();
+
+    private Base64() {
+        throw new UnsupportedOperationException("This class cannot be instantiated.");
+    }
 
     /**
      * Retrieves a player head {@link ItemStack} with a custom texture.
