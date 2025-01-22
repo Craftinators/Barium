@@ -63,7 +63,7 @@ public abstract class Match {
      * Get the amount of players in each job
      * @return A map with the amount of players in each job
      */
-    public final @NotNull EnumMap<@NotNull Job, @NotNull Integer> getCountPerJob() {
+    public final @NotNull Map<@NotNull Job, @NotNull Integer> getCountPerJob() {
         return getPlayers().stream()
                 .collect(Collectors.groupingBy(
                         WrappedPlayer::getJob,
