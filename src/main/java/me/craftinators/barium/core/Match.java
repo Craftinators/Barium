@@ -44,9 +44,7 @@ public abstract class Match {
             Job mostPopulousJob = getMostPopulousJob();
             Job leastPopulousJob = getLeastPopulousJob();
 
-            Set<WrappedPlayer> playersInMostPopulousJob = players.stream()
-                    .filter(player -> player.getJob() == mostPopulousJob)
-                    .collect(Collectors.toSet());
+            Set<WrappedPlayer> playersInMostPopulousJob = getPlayersInJob(mostPopulousJob);
 
             WrappedPlayer playerToMove = Utility.getRandomElement(playersInMostPopulousJob, random);
 
@@ -64,7 +62,7 @@ public abstract class Match {
      * @return A map with the amount of players in each job
      */
     public final @NotNull Map<@NotNull Job, @NotNull Integer> getCountPerJob() {
-        return getPlayers().stream()
+        return players.stream()
                 .collect(Collectors.groupingBy(
                         WrappedPlayer::getJob,
                         () -> new EnumMap<>(Job.class),
@@ -104,6 +102,13 @@ public abstract class Match {
                 .min(Map.Entry.comparingByValue()) // Gets the lowest value
                 .map(Map.Entry::getKey) // Get the associated key
                 .orElseThrow(() -> new IllegalStateException("No Job found. This should not happen."));
+    }
+
+
+    public final Set<WrappedPlayer> getPlayersInJob(Job job) {
+        return players.stream()
+                .filter(player -> player.getJob() == job)
+                .collect(Collectors.toSet());
     }
 
     // </editor-fold>
