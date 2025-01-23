@@ -104,7 +104,11 @@ public abstract class Match {
                 .orElseThrow(() -> new IllegalStateException("No Job found. This should not happen."));
     }
 
-
+    /**
+     * Get the players in a specific job.
+     * @param job The job to get the players from
+     * @return A set of players in the specified job
+     */
     public final Set<WrappedPlayer> getPlayersInJob(Job job) {
         return players.stream()
                 .filter(player -> player.getJob() == job)
