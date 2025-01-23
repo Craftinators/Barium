@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public abstract class Match {
     private final Barium plugin;
     private final Random random;
+
     private final Set<WrappedPlayer> players = new HashSet<>();
 
     public Match(Barium plugin) {
