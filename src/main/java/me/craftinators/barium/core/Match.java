@@ -49,8 +49,8 @@ public abstract class Match {
 
             WrappedPlayer playerToMove = Utility.getRandomElement(playersInMostPopulousJob, random);
 
-            playerToMove.setJob(leastPopulousJob);
-            transfers.put(playerToMove, new JobTransfer(mostPopulousJob, leastPopulousJob));
+            JobTransfer transfer = transferPlayer(playerToMove, leastPopulousJob);
+            transfers.put(playerToMove, transfer);
 
             difference = getLargestDifferenceBetweenJobs();
         }
@@ -114,6 +114,18 @@ public abstract class Match {
         return players.stream()
                 .filter(player -> player.getJob() == job)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Transfer a player to a new job.
+     * @param player The player to transfer
+     * @param newJob The new job to transfer the player to
+     * @return A {@link JobTransfer} object representing the transfer
+     */
+    public final @NotNull JobTransfer transferPlayer(@NotNull WrappedPlayer player, @NotNull Job newJob) {
+        Job oldJob = player.getJob();
+        player.setJob(newJob);
+        return new JobTransfer(oldJob, newJob);
     }
 
     // </editor-fold>
