@@ -36,6 +36,8 @@ public abstract class Match {
      * @return A map of players and their job transfers, indicating which job they were moved from and to.
      */
     public final @NotNull Map<@NotNull WrappedPlayer, @NotNull JobTransfer> balanceJobs() {
+        if (players.isEmpty()) return Collections.emptyMap();
+
         final Map<WrappedPlayer, JobTransfer> transfers = new HashMap<>();
 
         final long targetDifference = players.size() % Job.values().length == 0 ? 0 : 1;
@@ -91,7 +93,7 @@ public abstract class Match {
         return getCountPerJob().entrySet().stream()
                 .max(Map.Entry.comparingByValue()) // Gets the highest value
                 .map(Map.Entry::getKey) // Get the associated key
-                .orElseThrow(() -> new IllegalStateException("No Job found. This should not happen."));
+                .orElseThrow(EmptyMatchException::new);
     }
 
     /**
@@ -102,7 +104,7 @@ public abstract class Match {
         return getCountPerJob().entrySet().stream()
                 .min(Map.Entry.comparingByValue()) // Gets the lowest value
                 .map(Map.Entry::getKey) // Get the associated key
-                .orElseThrow(() -> new IllegalStateException("No Job found. This should not happen."));
+                .orElseThrow(EmptyMatchException::new);
     }
 
     /**
