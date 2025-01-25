@@ -1,7 +1,7 @@
 package me.craftinators.barium.event.trap;
 
+import me.craftinators.barium.core.WrappedPlayer;
 import me.craftinators.barium.trap.Trap;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -12,21 +12,21 @@ import org.jetbrains.annotations.NotNull;
 public class TrapPlaceEvent extends TrapEvent implements Cancellable {
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
-    private final Player player;
+    private final WrappedPlayer player;
 
     private boolean cancel = false;
 
-    public TrapPlaceEvent(@NotNull Trap trap, @NotNull Player player) {
+    public TrapPlaceEvent(@NotNull Trap trap, @NotNull WrappedPlayer player) {
         super(trap);
         this.player = player;
     }
 
     /**
-     * Gets the {@link Player} who placed the trap.
+     * Gets the {@link WrappedPlayer} who placed the trap.
      *
      * @return The player responsible for placing the trap
      */
-    public @NotNull Player getPlayer() {
+    public @NotNull WrappedPlayer getPlayer() {
         return player;
     }
 
