@@ -3,6 +3,7 @@ package me.craftinators.barium.core;
 import com.google.common.collect.ImmutableSet;
 import me.craftinators.barium.Barium;
 import me.craftinators.barium.Utility;
+import me.craftinators.barium.event.match.PlayerAttemptJoinMatchEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -26,6 +27,23 @@ public abstract class Match {
      */
     public final @NotNull Set<@NotNull WrappedPlayer> getPlayers() {
         return ImmutableSet.copyOf(players);
+    }
+
+    /**
+     * Attempts to add a player to the match, firing a {@link PlayerAttemptJoinMatchEvent} if the player wasn't already in the
+     * match. If the event is cancelled, the player will not be added.
+     * @param player The player to add to the match
+     * @return {@code true} if the player was added, {@code false} if the player was already in the match or the event
+     * was cancelled
+     */
+    public final boolean addPlayer(@NotNull WrappedPlayer player) {
+        if (players.contains(player)) return false;
+
+        PlayerAttemptJoinMatchEvent event = new PlayerAttemptJoinMatchEvent(this, player);
+        plugin.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) return false;
+
+        return players.add(player);
     }
 
     // <editor-fold desc="Job Utility">
