@@ -62,8 +62,13 @@ public abstract class Match {
         int difference = getLargestDifferenceBetweenJobs();
 
         while (difference > targetDifference) {
-            Job mostPopulousJob = getMostPopulousJob();
-            Job leastPopulousJob = getLeastPopulousJob();
+            // Note that, since we already return earlier if this match is empty, these should NEVER throw an exception!
+            Job mostPopulousJob = getMostPopulousJob().orElseThrow(
+                    () -> new IllegalStateException("Tried to find most populous job in an empty match, this should not happen.")
+            );
+            Job leastPopulousJob = getLeastPopulousJob().orElseThrow(
+                    () -> new IllegalStateException("Tried to find least populous job in an empty match, this should not happen.")
+            );
 
             Set<WrappedPlayer> playersInMostPopulousJob = getPlayersInJob(mostPopulousJob);
 
@@ -104,25 +109,23 @@ public abstract class Match {
     }
 
     /**
-     * Get the most populous job
+     * Gets an optional containing the most populous job, or an empty optional if the match is empty.
      * @return The most populous job
      */
-    public final @NotNull Job getMostPopulousJob() {
+    public final @NotNull Optional<@NotNull Job> getMostPopulousJob() {
         return getCountPerJob().entrySet().stream()
                 .max(Map.Entry.comparingByValue()) // Gets the highest value
-                .map(Map.Entry::getKey) // Get the associated key
-                .orElseThrow(EmptyMatchException::new);
+                .map(Map.Entry::getKey); // Get the associated key
     }
 
     /**
-     * Get the least populous job
+     * Gets an optional containing the least populous job, or an empty optional if the match is empty.
      * @return The least populous job
      */
-    public final @NotNull Job getLeastPopulousJob() {
+    public final @NotNull Optional<@NotNull Job> getLeastPopulousJob() {
         return getCountPerJob().entrySet().stream()
                 .min(Map.Entry.comparingByValue()) // Gets the lowest value
-                .map(Map.Entry::getKey) // Get the associated key
-                .orElseThrow(EmptyMatchException::new);
+                .map(Map.Entry::getKey); // Get the associated key
     }
 
     /**
