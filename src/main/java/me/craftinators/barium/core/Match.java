@@ -30,6 +30,15 @@ public abstract class Match {
     }
 
     /**
+     * Checks if a player is in the match.
+     * @param player The player to check
+     * @return {@code true} if the player is in the match, {@code false} otherwise
+     */
+    public final boolean containsPlayer(@NotNull WrappedPlayer player) {
+        return players.contains(player);
+    }
+
+    /**
      * Attempts to add a player to the match, firing a {@link PlayerAttemptJoinMatchEvent} if the player wasn't already in the
      * match. If the event is cancelled, the player will not be added.
      * @param player The player to add to the match
@@ -81,6 +90,29 @@ public abstract class Match {
         }
 
         return transfers;
+    }
+
+    /**
+     * Balances the job of a specific player by transferring them to the least populous job if they are not already in it.
+     * If the player is already in the least populous job, no transfer is performed. If the player isn't in the match,
+     * an empty {@link Optional} is also returned.
+     *
+     * @param player The player to balance.
+     * @return An {@link Optional} containing the {@link JobTransfer} if a transfer was performed, or an empty {@link Optional} if no transfer was needed.
+     */
+    public final Optional<JobTransfer> balancePlayer(@NotNull WrappedPlayer player) {
+        if (!containsPlayer(player)) return Optional.empty();
+
+        Job leastPopulousJob = getLeastPopulousJob().orElseThrow(
+                () -> new IllegalStateException("Tried to find least populous job in an empty match, this should not happen.")
+        );
+
+        if (player.getJob() == leastPopulousJob)
+            return Optional.empty();
+
+        return Optional.of(
+                transferPlayer(player, leastPopulousJob)
+        );
     }
 
     /**
