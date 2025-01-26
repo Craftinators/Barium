@@ -3,8 +3,8 @@ package me.craftinators.barium.core;
 import me.craftinators.barium.Barium;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class WrappedPlayer {
@@ -24,7 +24,7 @@ public abstract class WrappedPlayer {
      * @return {@code true} if the player is online, {@code false} otherwise
      */
     public final boolean isOnline() {
-        return getPlayer() != null;
+        return getPlayer().isPresent();
     }
 
     /**
@@ -36,11 +36,13 @@ public abstract class WrappedPlayer {
     }
 
     /**
-     * Returns the {@link Player} associated with this wrapper, or {@code null} if the player is not online
-     * @return Player object, or {@code null} if the player is not online
+     * Returns the {@link Player} associated with this wrapper, or an {@link Optional#empty()} if the player is not online
+     * @return Optional containing the Player object, or an empty Optional if the player is not online
      */
-    public final @Nullable Player getPlayer() {
-        return plugin.getServer().getPlayer(uuid);
+    public final @NotNull Optional<@NotNull Player> getPlayer() {
+        return Optional.ofNullable(
+                plugin.getServer().getPlayer(uuid)
+        );
     }
 
     /**
@@ -57,5 +59,14 @@ public abstract class WrappedPlayer {
      */
     public final void setJob(@NotNull Job newJob) {
         job = newJob;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        WrappedPlayer otherPlayer = (WrappedPlayer) obj;
+        return uuid.equals(otherPlayer.uuid);
     }
 }

@@ -7,6 +7,8 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 /**
  * Called when a trap is activated
  */
@@ -25,12 +27,12 @@ public class TrapActivateEvent extends TrapEvent implements Cancellable {
     }
 
     /**
-     * Returns the {@link WrappedPlayer} who activated the trap, or {@code null} if no player was involved.
+     * Returns an {@link Optional} containing the {@link WrappedPlayer} who activated the trap, or an empty {@link Optional} if no player was involved.
      *
-     * @return The player who activated the trap, or {@code null} if the trap was activated by a non-player event
+     * @return An {@link Optional} containing the player who activated the trap, or an empty {@link Optional} if the trap was activated by a non-player event
      */
-    public @Nullable WrappedPlayer getPlayer() {
-        return player;
+    public Optional<WrappedPlayer> getPlayer() {
+        return Optional.ofNullable(player);
     }
 
     /**
