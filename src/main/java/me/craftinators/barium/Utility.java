@@ -27,4 +27,17 @@ public final class Utility {
                         "No elements found in the collection. This should not happen."
                 ));
     }
+
+    /**
+     * Gets a random element from the array. Fails fast if the array is empty.
+     * @param array The array to get the random element from.
+     * @param random The random number generator to use.
+     * @return A random element from the array.
+     * @param <T> The type of the elements in the array.
+     */
+    public static <T> @NotNull T getRandomElement(@NotNull T[] array, @NotNull Random random) {
+        if (array.length == 0) throw new IllegalArgumentException("Array cannot be empty.");
+
+        return array[random.nextInt(array.length)];
+    }
 }
