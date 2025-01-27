@@ -58,6 +58,24 @@ public abstract class Match {
     // <editor-fold desc="Job Utility">
 
     /**
+     * Shuffles the jobs among players, assigning each player a random job.
+     * @return A map of players and their job transfers, indicating which job they were moved from and to.
+     */
+    public final @NotNull Map<@NotNull WrappedPlayer, @NotNull JobTransfer> shuffleJobs() {
+        if (players.isEmpty()) return Collections.emptyMap();
+
+        final Map<WrappedPlayer, JobTransfer> transfers = new HashMap<>();
+
+        for (WrappedPlayer player : players) {
+            Job randomNewJob = Utility.getRandomElement(Job.values(), random);
+            JobTransfer transfer = transferPlayer(player, randomNewJob);
+            transfers.put(player, transfer);
+        }
+
+        return transfers;
+    }
+
+    /**
      * Balances the {@link Job} among players to ensure that the difference between the most populous job and the least populous job
      * is at most 1, or 0 if the number of players is a multiple of the number of jobs.
      * @return A map of players and their job transfers, indicating which job they were moved from and to.
