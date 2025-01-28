@@ -1,6 +1,6 @@
 package me.craftinators.barium.event.trap;
 
-import me.craftinators.barium.trap.Trap;
+import me.craftinators.barium.core.Trap;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

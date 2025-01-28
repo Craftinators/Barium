@@ -1,4 +1,4 @@
-package me.craftinators.barium.trap;
+package me.craftinators.barium.core;
 
 // TODO
 public abstract class Trap {

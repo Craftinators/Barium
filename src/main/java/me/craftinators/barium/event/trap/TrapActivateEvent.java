@@ -1,7 +1,7 @@
 package me.craftinators.barium.event.trap;
 
 import me.craftinators.barium.core.WrappedPlayer;
-import me.craftinators.barium.trap.Trap;
+import me.craftinators.barium.core.Trap;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
