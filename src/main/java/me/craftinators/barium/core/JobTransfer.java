@@ -2,6 +2,9 @@ package me.craftinators.barium.core;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents a transfer of a {@link Job} from one job to another.
+ */
 public record JobTransfer(Job oldJob, Job newJob) implements Comparable<JobTransfer> {
     /**
      * Compares this {@link JobTransfer} with the specified {@link JobTransfer} for order.
