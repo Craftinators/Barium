@@ -58,44 +58,6 @@ public abstract class Match {
     // <editor-fold desc="Job Utility">
 
     /**
-     * Shuffles the jobs among players, assigning each player a random job.
-     * @return A map of players and their job transfers, indicating which job they were moved from and to.
-     */
-    public final @NotNull Map<@NotNull WrappedPlayer, @NotNull JobTransfer> shuffleJobs() {
-        if (players.isEmpty()) return Collections.emptyMap();
-
-        final Map<WrappedPlayer, JobTransfer> transfers = new HashMap<>();
-
-        for (WrappedPlayer player : players) {
-            Job randomNewJob = Utility.getRandomElement(Job.values(), random);
-            JobTransfer transfer = transferPlayer(player, randomNewJob);
-            transfers.put(player, transfer);
-        }
-
-        return transfers;
-    }
-
-    /**
-     * Balances the {@link Job} among players by forcefully assigning each player a job in a round-robin fashion. Doesn't
-     * attempt to minimize the transfer of players between jobs.
-     * @return A map of players and their job transfers, indicating which job they were moved from and to.
-     */
-    public final @NotNull Map<@NotNull WrappedPlayer, @NotNull JobTransfer> balanceJobsForcefully() {
-        if (players.isEmpty()) return Collections.emptyMap();
-
-        final Map<WrappedPlayer, JobTransfer> transfers = new HashMap<>();
-
-        int index = 0;
-        for (WrappedPlayer player : players) {
-            Job newJob = Job.values()[index++ % Job.values().length];
-            JobTransfer transfer = transferPlayer(player, newJob);
-            transfers.put(player, transfer);
-        }
-
-        return transfers;
-    }
-
-    /**
      * Balances the {@link Job} among players to ensure that the difference between the most populous job and the least populous job
      * is at most 1, or 0 if the number of players is a multiple of the number of jobs.
      * @return A map of players and their job transfers, indicating which job they were moved from and to.
@@ -128,29 +90,6 @@ public abstract class Match {
         }
 
         return transfers;
-    }
-
-    /**
-     * Balances the job of a specific player by transferring them to the least populous job if they are not already in it.
-     * If the player is already in the least populous job, no transfer is performed. If the player isn't in the match,
-     * an empty {@link Optional} is also returned.
-     *
-     * @param player The player to balance.
-     * @return An {@link Optional} containing the {@link JobTransfer} if a transfer was performed, or an empty {@link Optional} if no transfer was needed.
-     */
-    public final Optional<JobTransfer> balancePlayer(@NotNull WrappedPlayer player) {
-        if (!containsPlayer(player)) return Optional.empty();
-
-        Job leastPopulousJob = getLeastPopulousJob().orElseThrow(
-                () -> new IllegalStateException("Tried to find least populous job in an empty match, this should not happen.")
-        );
-
-        if (player.getJob() == leastPopulousJob)
-            return Optional.empty();
-
-        return Optional.of(
-                transferPlayer(player, leastPopulousJob)
-        );
     }
 
     /**
