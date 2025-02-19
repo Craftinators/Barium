@@ -20,14 +20,6 @@ public abstract class WrappedPlayer {
     }
 
     /**
-     * Checks if the player associated with this wrapper is online
-     * @return {@code true} if the player is online, {@code false} otherwise
-     */
-    public final boolean isOnline() {
-        return getPlayer().isPresent();
-    }
-
-    /**
      * Returns the {@link UUID} of the player associated with this wrapper
      * @return UUID of the player
      */
