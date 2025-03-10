@@ -2,7 +2,9 @@ package me.craftinators.barium;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Random;
 
 public final class Utility {
@@ -39,5 +41,14 @@ public final class Utility {
         if (array.length == 0) throw new IllegalArgumentException("Array cannot be empty.");
 
         return array[random.nextInt(array.length)];
+    }
+
+    public static <E extends Enum<E>> @NotNull EnumSet<E> createEnumSetFromArray(E[] array) {
+        if (array.length == 0) {
+            @SuppressWarnings("unchecked")
+            Class<E> enumType = (Class<E>) array.getClass().getComponentType();
+            return EnumSet.noneOf(enumType);
+        }
+        return EnumSet.copyOf(Arrays.asList(array));
     }
 }
